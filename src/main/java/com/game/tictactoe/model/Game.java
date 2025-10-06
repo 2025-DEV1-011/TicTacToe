@@ -77,6 +77,21 @@ public class Game {
             }
         }
 
+        // Diagonal win detection (anti-diagonal)
+        boolean antiDiagonalWin = true;
+        if (row + col == 2) {
+            for (int i = 0; i < 3; i++) {
+                if (board[i][2 - i] != currentPlayer) {
+                    antiDiagonalWin = false;
+                    break;
+                }
+            }
+            if (antiDiagonalWin) {
+                gameState = (currentPlayer == Player.X) ? GameState.X_WINS : GameState.O_WINS;
+                return gameState;
+            }
+        }
+
         // Switch player after move
         currentPlayer = (currentPlayer == Player.X) ? Player.O : Player.X;
 
