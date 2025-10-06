@@ -104,6 +104,23 @@ class GameTest {
         assertEquals(GameState.O_WINS, result, "Should return O_WINS when O completes a row");
     }
 
+    @Test
+    void makeMove_shouldReturnXWinsWhenXCompletesAColumn() {
+        // Arrange
+        Game game = new Game();
+        // Moves
+        game.makeMove(0, 0); // X
+        game.makeMove(0, 1); // O
+        game.makeMove(1, 0); // X
+        game.makeMove(1, 1); // O
+
+        // Act: Final move
+        GameState result = game.makeMove(2, 0); // X wins by column
+
+        // Assert
+        assertEquals(GameState.X_WINS, result, "Should return X_WINS when X completes a column");
+    }
+
     private static Player getRandomPlayer() {
         Player[] players = Player.values();
         return players[new Random().nextInt(players.length)];

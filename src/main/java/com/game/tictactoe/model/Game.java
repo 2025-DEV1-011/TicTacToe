@@ -49,6 +49,19 @@ public class Game {
             return gameState;
         }
 
+        // Column-wise win detection
+        boolean colWin = true;
+        for (int r = 0; r < 3; r++) {
+            if (board[r][col] != currentPlayer) {
+                colWin = false;
+                break;
+            }
+        }
+        if (colWin) {
+            gameState = (currentPlayer == Player.X) ? GameState.X_WINS : GameState.O_WINS;
+            return gameState;
+        }
+
         // Switch player after move
         currentPlayer = (currentPlayer == Player.X) ? Player.O : Player.X;
 
