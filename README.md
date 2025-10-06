@@ -1,7 +1,7 @@
 # Tic Tac Toe Kata – 2025-DEV1-011/TicTacToe
 
 ## Overview
-This project is a clean, test-driven implementation of the classic Tic Tac Toe game, built with Java and Spring Boot. It demonstrates best practices in software craftsmanship, including TDD, clear domain modeling, and RESTful API design. The codebase is structured for clarity, maintainability, and extensibility.
+This project is a clean, test-driven implementation of the classic Tic Tac Toe game, built with Java and Spring Framework. It demonstrates best practices in software craftsmanship, including TDD, clear domain modeling, and RESTful API design. The codebase is structured for clarity, maintainability, and extensibility.
 
 ## Project Goals
 - Provide a robust backend for playing Tic Tac Toe via a REST API and a web UI
@@ -71,6 +71,7 @@ While the main game logic (rules, moves, state transitions) is encapsulated in t
 - **TDD:** All features were developed using a test-first approach. See the commit history for incremental progress.
 - **Lombok:** Used to reduce boilerplate in domain models (e.g., getters).
 - **Spring Boot:** For rapid REST API development and easy testing.
+- **Spring Boot Actuator:** Actuator endpoints are enabled to provide production-ready features such as health checks and application metrics, supporting better monitoring and operational insight.
 - **Domain-Driven Design:** The core logic is encapsulated in the `Game` domain model and supporting classes.
 - **Immutability & Encapsulation:** Where possible, fields are `final` and access is restricted.
 - **Constructor Visibility:** Some Constructors used only for testing are package-private and clearly documented.
@@ -86,5 +87,3 @@ To run all tests:
 ## Notes
 - Please ensure your IDE has Lombok support enabled.
 - The code is designed for clarity, maintainability, and extensibility.
-
-
