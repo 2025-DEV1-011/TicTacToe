@@ -52,7 +52,7 @@ class WebControllerTest {
         mockGame.getBoard()[row][col] = Player.X;
         given(gameService.makeMove(gameId, row, col)).willReturn(mockGame);
 
-        mockMvc.perform(post("/game/" + gameId + "/move")
+        mockMvc.perform(post("/api/game/" + gameId + "/move")
                         .contentType("application/json")
                         .content("{\"row\":1,\"col\":1}"))
                 .andExpect(status().isOk())

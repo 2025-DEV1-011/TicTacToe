@@ -26,7 +26,7 @@ public class WebController {
         return ResponseEntity.status(HttpStatus.CREATED).body(game);
     }
 
-    @PostMapping("/game/{gameId}/move")
+    @PostMapping("/api/game/{gameId}/move")
     public ResponseEntity<Game> makeMove(@PathVariable String gameId, @RequestBody MoveRequest moveRequest) {
         Game updatedGame = gameService.makeMove(gameId, moveRequest.row(), moveRequest.col());
         return ResponseEntity.ok(updatedGame);
