@@ -22,17 +22,18 @@ class WebControllerTest {
     private WebController webController;
 
     private MockMvc mockMvc;
+    private final Game mockGame = new Game();
 
     @org.junit.jupiter.api.BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(webController).build();
+
+        given(gameService.createNewGame()).willReturn(mockGame);
     }
 
     @Test
     void newGame_shouldReturnNewGameState() throws Exception {
-        Game mockGame = new Game();
-        given(gameService.createNewGame()).willReturn(mockGame);
         mockMvc.perform(post("/api/game"))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.gameId").exists())
@@ -40,5 +41,21 @@ class WebControllerTest {
                 .andExpect(jsonPath("$.board.length()").value(3))
                 .andExpect(jsonPath("$.board[0].length()").value(3))
                 .andExpect(jsonPath("$.currentPlayer").value("X"));
+    }
+
+    @Test
+    void makeMove_shouldUpdateBoardAndReturnGameState_FromServiceLayer() throws Exception {
+        String gameId = mockGame.getGameId();
+        int row = 1;
+        int col = 1;
+        mockGame.getBoard()[row][col] = "X";
+        given(gameService.makeMove(gameId, row, col)).willReturn(mockGame);
+
+        mockMvc.perform(post("/game/" + gameId + "/move")
+                        .contentType("application/json")
+                        .content("{\"row\":1,\"col\":1}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.board[1][1]").value("X"))
+                .andExpect(jsonPath("$.gameId").value(gameId));
     }
 }

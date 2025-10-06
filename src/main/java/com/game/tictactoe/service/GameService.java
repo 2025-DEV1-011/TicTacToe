@@ -8,5 +8,9 @@ public class GameService {
     public Game createNewGame() {
         return new Game();
     }
+
+    public Game makeMove(String gameId, int row, int col) {
+        return null;
+    }
 }
 
