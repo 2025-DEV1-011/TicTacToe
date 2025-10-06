@@ -36,60 +36,24 @@ public class Game {
 
         board[row][col] = currentPlayer;
 
-        // Row-wise win detection
-        boolean rowWin = true;
-        for (int c = 0; c < 3; c++) {
-            if (board[row][c] != currentPlayer) {
-                rowWin = false;
-                break;
-            }
-        }
-        if (rowWin) {
+        if (isRowWin(row)) {
             gameState = (currentPlayer == Player.X) ? GameState.X_WINS : GameState.O_WINS;
             return gameState;
         }
 
-        // Column-wise win detection
-        boolean colWin = true;
-        for (int r = 0; r < 3; r++) {
-            if (board[r][col] != currentPlayer) {
-                colWin = false;
-                break;
-            }
-        }
-        if (colWin) {
+        if (isColWin(col)) {
             gameState = (currentPlayer == Player.X) ? GameState.X_WINS : GameState.O_WINS;
             return gameState;
         }
 
-        // Diagonal win detection (main diagonal)
-        boolean mainDiagonalWin = true;
-        if (row == col) {
-            for (int i = 0; i < 3; i++) {
-                if (board[i][i] != currentPlayer) {
-                    mainDiagonalWin = false;
-                    break;
-                }
-            }
-            if (mainDiagonalWin) {
-                gameState = (currentPlayer == Player.X) ? GameState.X_WINS : GameState.O_WINS;
-                return gameState;
-            }
+        if (isMainDiagonalWin(row, col)) {
+            gameState = (currentPlayer == Player.X) ? GameState.X_WINS : GameState.O_WINS;
+            return gameState;
         }
 
-        // Diagonal win detection (anti-diagonal)
-        boolean antiDiagonalWin = true;
-        if (row + col == 2) {
-            for (int i = 0; i < 3; i++) {
-                if (board[i][2 - i] != currentPlayer) {
-                    antiDiagonalWin = false;
-                    break;
-                }
-            }
-            if (antiDiagonalWin) {
-                gameState = (currentPlayer == Player.X) ? GameState.X_WINS : GameState.O_WINS;
-                return gameState;
-            }
+        if (isAntiDiagonalWin(row, col)) {
+            gameState = (currentPlayer == Player.X) ? GameState.X_WINS : GameState.O_WINS;
+            return gameState;
         }
 
         // Switch player after move
@@ -100,5 +64,43 @@ public class Game {
 
     public Player getCurrentPlayer() {
         return currentPlayer;
+    }
+
+    private boolean isRowWin(int row) {
+        for (int c = 0; c < 3; c++) {
+            if (board[row][c] != currentPlayer) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean isColWin(int col) {
+        for (int r = 0; r < 3; r++) {
+            if (board[r][col] != currentPlayer) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean isMainDiagonalWin(int row, int col) {
+        if (row != col) return false;
+        for (int i = 0; i < 3; i++) {
+            if (board[i][i] != currentPlayer) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean isAntiDiagonalWin(int row, int col) {
+        if (row + col != 2) return false;
+        for (int i = 0; i < 3; i++) {
+            if (board[i][2 - i] != currentPlayer) {
+                return false;
+            }
+        }
+        return true;
     }
 }
