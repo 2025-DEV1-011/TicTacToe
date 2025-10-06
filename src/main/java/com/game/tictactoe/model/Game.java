@@ -22,7 +22,7 @@ public class Game {
     }
 
     public void makeMove(int row, int col) {
-
+        board[row][col] = currentPlayer;
     }
 
     public String getCurrentPlayer() {
