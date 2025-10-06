@@ -173,6 +173,42 @@ class GameTest {
         assertEquals(GameState.X_WINS, result, "Should return X_WINS when X completes the anti-diagonal");
     }
 
+    @Test
+    void makeMove_shouldReturnOWinsWhenOCompletesMainDiagonal() {
+        // Arrange
+        Game game = new Game();
+        // O will fill the main diagonal (0,0), (1,1), (2,2)
+        game.makeMove(0, 1); // X
+        game.makeMove(0, 0); // O
+        game.makeMove(1, 0); // X
+        game.makeMove(1, 1); // O
+        game.makeMove(2, 1); // X
+
+        // Act: Final move
+        GameState result = game.makeMove(2, 2); // O wins by main diagonal
+
+        // Assert
+        assertEquals(GameState.O_WINS, result, "Should return O_WINS when O completes the main diagonal");
+    }
+
+    @Test
+    void makeMove_shouldReturnOWinsWhenOCompletesAntiDiagonal() {
+        // Arrange
+        Game game = new Game();
+        // O will fill the anti-diagonal (0,2), (1,1), (2,0)
+        game.makeMove(0, 0); // X
+        game.makeMove(0, 2); // O
+        game.makeMove(1, 0); // X
+        game.makeMove(1, 1); // O
+        game.makeMove(2, 2); // X
+
+        // Act: Final move
+        GameState result = game.makeMove(2, 0); // O wins by anti-diagonal
+
+        // Assert
+        assertEquals(GameState.O_WINS, result, "Should return O_WINS when O completes the anti-diagonal");
+    }
+
     private static Player getRandomPlayer() {
         Player[] players = Player.values();
         return players[new Random().nextInt(players.length)];
