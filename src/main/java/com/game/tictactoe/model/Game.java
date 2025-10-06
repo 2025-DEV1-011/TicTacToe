@@ -17,6 +17,9 @@ public class Game {
         this.currentPlayer = Player.X;
     }
 
+    /**
+     * Visible for testing only.
+     */
     Game(Player player) {
         this.gameId = UUID.randomUUID().toString();
         this.board = new Player[3][3];
