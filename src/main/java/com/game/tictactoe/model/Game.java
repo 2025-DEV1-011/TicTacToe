@@ -6,7 +6,7 @@ public class Game {
     private final String gameId;
     private final Player[][] board;
     private Player currentPlayer;
-    private final GameState gameState = GameState.ONGOING;
+    private GameState gameState = GameState.ONGOING;
 
     public Game() {
         this.gameId = UUID.randomUUID().toString();
@@ -35,6 +35,19 @@ public class Game {
         }
 
         board[row][col] = currentPlayer;
+
+        // Row-wise win detection
+        boolean rowWin = true;
+        for (int c = 0; c < 3; c++) {
+            if (board[row][c] != currentPlayer) {
+                rowWin = false;
+                break;
+            }
+        }
+        if (rowWin) {
+            gameState = (currentPlayer == Player.X) ? GameState.X_WINS : GameState.O_WINS;
+            return gameState;
+        }
 
         // Switch player after move
         currentPlayer = (currentPlayer == Player.X) ? Player.O : Player.X;

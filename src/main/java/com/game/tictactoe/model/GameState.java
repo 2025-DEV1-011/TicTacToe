@@ -1,6 +1,6 @@
 package com.game.tictactoe.model;
 
 public enum GameState {
-    ONGOING
+    X_WINS, O_WINS, ONGOING
 }
 

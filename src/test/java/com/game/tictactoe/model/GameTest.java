@@ -68,6 +68,23 @@ class GameTest {
         assertThat(currentState, CoreMatchers.is(GameState.ONGOING));
     }
 
+    @Test
+    void makeMove_shouldReturnXWinsWhenXCompletesARow() {
+        // Arrange
+        Game game = new Game();
+        // moves
+        game.makeMove(0, 0); // X
+        game.makeMove(1, 0); // O
+        game.makeMove(0, 1); // X
+        game.makeMove(1, 1); // O
+
+        // Act: Final move
+        GameState result = game.makeMove(0, 2); // X wins
+
+        // Assert
+        assertEquals(GameState.X_WINS, result, "Should return X_WINS when X completes a row");
+    }
+
     private static Player getRandomPlayer() {
         Player[] players = Player.values();
         return players[new Random().nextInt(players.length)];
