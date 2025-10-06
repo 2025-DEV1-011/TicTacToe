@@ -62,6 +62,21 @@ public class Game {
             return gameState;
         }
 
+        // Diagonal win detection (main diagonal)
+        boolean mainDiagonalWin = true;
+        if (row == col) {
+            for (int i = 0; i < 3; i++) {
+                if (board[i][i] != currentPlayer) {
+                    mainDiagonalWin = false;
+                    break;
+                }
+            }
+            if (mainDiagonalWin) {
+                gameState = (currentPlayer == Player.X) ? GameState.X_WINS : GameState.O_WINS;
+                return gameState;
+            }
+        }
+
         // Switch player after move
         currentPlayer = (currentPlayer == Player.X) ? Player.O : Player.X;
 
