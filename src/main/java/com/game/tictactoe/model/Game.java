@@ -21,6 +21,10 @@ public class Game {
         return board;
     }
 
+    public void makeMove(int row, int col) {
+
+    }
+
     public String getCurrentPlayer() {
         return currentPlayer;
     }
