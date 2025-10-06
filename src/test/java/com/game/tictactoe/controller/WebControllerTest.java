@@ -1,6 +1,7 @@
 package com.game.tictactoe.controller;
 
 import com.game.tictactoe.model.Game;
+import com.game.tictactoe.model.Player;
 import com.game.tictactoe.service.GameService;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -48,7 +49,7 @@ class WebControllerTest {
         String gameId = mockGame.getGameId();
         int row = 1;
         int col = 1;
-        mockGame.getBoard()[row][col] = "X";
+        mockGame.getBoard()[row][col] = Player.X;
         given(gameService.makeMove(gameId, row, col)).willReturn(mockGame);
 
         mockMvc.perform(post("/game/" + gameId + "/move")

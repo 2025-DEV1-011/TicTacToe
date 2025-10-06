@@ -15,6 +15,6 @@ class GameTest {
         game.makeMove(row, col);
 
         // Assert
-        assertEquals("X", game.getBoard()[row][col], "Cell should be updated to 'X' after move");
+        assertEquals(Player.X, game.getBoard()[row][col], "Cell should be updated to Player.X after move");
     }
 }

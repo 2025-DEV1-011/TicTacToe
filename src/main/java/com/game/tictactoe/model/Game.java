@@ -4,20 +4,20 @@ import java.util.UUID;
 
 public class Game {
     private final String gameId;
-    private final String[][] board;
-    private final String currentPlayer;
+    private final Player[][] board;
+    private final Player currentPlayer;
 
     public Game() {
         this.gameId = UUID.randomUUID().toString();
-        this.board = new String[3][3];
-        this.currentPlayer = "X";
+        this.board = new Player[3][3];
+        this.currentPlayer = Player.X;
     }
 
     public String getGameId() {
         return gameId;
     }
 
-    public String[][] getBoard() {
+    public Player[][] getBoard() {
         return board;
     }
 
@@ -25,8 +25,7 @@ public class Game {
         board[row][col] = currentPlayer;
     }
 
-    public String getCurrentPlayer() {
+    public Player getCurrentPlayer() {
         return currentPlayer;
     }
 }
-
