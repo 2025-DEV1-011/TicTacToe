@@ -1,7 +1,10 @@
 package com.game.tictactoe.model;
 
+import lombok.Getter;
+
 import java.util.UUID;
 
+@Getter
 public class Game {
     private final String gameId;
     private final Player[][] board;
@@ -18,14 +21,6 @@ public class Game {
         this.gameId = UUID.randomUUID().toString();
         this.board = new Player[3][3];
         this.currentPlayer = player;
-    }
-
-    public String getGameId() {
-        return gameId;
-    }
-
-    public Player[][] getBoard() {
-        return board;
     }
 
     public GameState makeMove(int row, int col) {
@@ -60,10 +55,6 @@ public class Game {
         currentPlayer = (currentPlayer == Player.X) ? Player.O : Player.X;
 
         return gameState;
-    }
-
-    public Player getCurrentPlayer() {
-        return currentPlayer;
     }
 
     private boolean isRowWin(int row) {
