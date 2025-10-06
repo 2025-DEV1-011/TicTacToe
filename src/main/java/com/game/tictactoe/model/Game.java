@@ -6,6 +6,7 @@ public class Game {
     private final String gameId;
     private final Player[][] board;
     private Player currentPlayer;
+    private final GameState gameState = GameState.ONGOING;
 
     public Game() {
         this.gameId = UUID.randomUUID().toString();
@@ -27,16 +28,18 @@ public class Game {
         return board;
     }
 
-    public void makeMove(int row, int col) {
-        if (board[row][col] != null) {
-            // Position already taken, do not make a move or switch player
-            return;
+    public GameState makeMove(int row, int col) {
+        if (board[row][col] != null || gameState != GameState.ONGOING) {
+            // Position already taken or game already finished
+            return gameState;
         }
 
         board[row][col] = currentPlayer;
 
         // Switch player after move
         currentPlayer = (currentPlayer == Player.X) ? Player.O : Player.X;
+
+        return gameState;
     }
 
     public Player getCurrentPlayer() {

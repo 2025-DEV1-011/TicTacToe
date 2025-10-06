@@ -1,9 +1,11 @@
 package com.game.tictactoe.model;
 
+import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.Test;
 
 import java.util.Random;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class GameTest {
@@ -51,6 +53,19 @@ class GameTest {
         // Assert: Board should not change, player should not switch
         assertEquals(firstPlayer, game.getBoard()[row][col], "Cell should remain as X after invalid move");
         assertEquals(secondPlayer, game.getCurrentPlayer(), "Current player should remain O after invalid move");
+    }
+
+    @Test
+    void makeMove_shouldReturn_ONGOING_whenGameIsNotFinished() {
+        // Arrange
+        Game game = new Game();
+
+        // Act
+        int row = 0, col = 0;
+        GameState currentState = game.makeMove(row, col); // First move
+
+        // Assert
+        assertThat(currentState, CoreMatchers.is(GameState.ONGOING));
     }
 
     private static Player getRandomPlayer() {
