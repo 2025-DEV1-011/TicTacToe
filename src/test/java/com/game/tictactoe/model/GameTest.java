@@ -20,7 +20,6 @@ class GameTest {
         assertEquals(Player.X, game.getBoard()[row][col], "Cell should be updated to Player.X after move");
     }
 
-
     @Test
     void makeMove_shouldSwitchCurrentPlayerAfterSuccessfulMove() {
         // Arrange
@@ -34,6 +33,24 @@ class GameTest {
         // Assert
         Player expectedPlayer = (randomPlayer == Player.X) ? Player.O : Player.X;
         assertEquals(expectedPlayer, game.getCurrentPlayer(), "Player should be O after First move");
+    }
+
+    @Test
+    void makeMove_shouldNotAllowMoveOnTakenPosition() {
+        // Arrange
+        Game game = new Game();
+        int row = 0, col = 0;
+        game.makeMove(row, col); // First move by X
+
+        Player firstPlayer = Player.X;
+        Player secondPlayer = Player.O;
+
+        // Act: Try to move again on the same cell
+        game.makeMove(row, col);
+
+        // Assert: Board should not change, player should not switch
+        assertEquals(firstPlayer, game.getBoard()[row][col], "Cell should remain as X after invalid move");
+        assertEquals(secondPlayer, game.getCurrentPlayer(), "Current player should remain O after invalid move");
     }
 
     private static Player getRandomPlayer() {

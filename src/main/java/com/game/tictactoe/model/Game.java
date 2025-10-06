@@ -28,11 +28,15 @@ public class Game {
     }
 
     public void makeMove(int row, int col) {
+        if (board[row][col] != null) {
+            // Position already taken, do not make a move or switch player
+            return;
+        }
+
         board[row][col] = currentPlayer;
 
         // Switch player after move
         currentPlayer = (currentPlayer == Player.X) ? Player.O : Player.X;
-
     }
 
     public Player getCurrentPlayer() {
