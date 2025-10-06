@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TicTacToe Game</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .board-cell {
+            width: 80px;
+            height: 80px;
+            font-size: 2rem;
+            text-align: center;
+            vertical-align: middle;
+            cursor: pointer;
+        }
+        .board-row {
+            display: flex;
+        }
+    </style>
+</head>
+<body class="bg-light">
+<div class="container py-5">
+    <h1 class="mb-4 text-center">TicTacToe</h1>
+    <div class="d-flex justify-content-center mb-3">
+        <button id="newGameBtn" class="btn btn-primary">New Game</button>
+    </div>
+    <div id="gameInfo" class="text-center mb-3"></div>
+    <div id="banner" class="text-center mb-3"></div>
+    <div id="board" class="mx-auto" style="width: 260px;"></div>
+</div>
+<script>
+    let gameId = null;
+    let currentPlayer = null;
+    let gameState = null;
+    let board = null;
+
+    function showBanner() {
+        const bannerDiv = document.getElementById('banner');
+        if (gameState === 'X_WINS') {
+            bannerDiv.innerHTML = '<div class="alert alert-success">Player <b>X</b> wins!</div>';
+        } else if (gameState === 'O_WINS') {
+            bannerDiv.innerHTML = '<div class="alert alert-success">Player <b>O</b> wins!</div>';
+        } else if (gameState === 'DRAW') {
+            bannerDiv.innerHTML = '<div class="alert alert-warning">It\'s a draw!</div>';
+        } else {
+            bannerDiv.innerHTML = '';
+        }
+    }
+
+    function renderBoard() {
+        const boardDiv = document.getElementById('board');
+        boardDiv.innerHTML = '';
+        if (!board) return;
+        for (let i = 0; i < 3; i++) {
+            const rowDiv = document.createElement('div');
+            rowDiv.className = 'board-row';
+            for (let j = 0; j < 3; j++) {
+                const cellBtn = document.createElement('button');
+                cellBtn.className = 'btn btn-outline-dark board-cell';
+                cellBtn.textContent = board[i][j] ? board[i][j] : '';
+                // Disable all cells if game is not ongoing
+                cellBtn.disabled = !!board[i][j] || gameState !== 'ONGOING';
+                cellBtn.onclick = () => makeMove(i, j);
+                rowDiv.appendChild(cellBtn);
+            }
+            boardDiv.appendChild(rowDiv);
+        }
+        showBanner();
+    }
+
+    function updateGameInfo() {
+        const infoDiv = document.getElementById('gameInfo');
+        if (!gameId) {
+            infoDiv.textContent = 'Click "New Game" to start!';
+            showBanner();
+            return;
+        }
+        let stateMsg = '';
+        if (gameState === 'ONGOING') {
+            stateMsg = `Current Player: <b>${currentPlayer}</b>`;
+        } else if (gameState === 'DRAW') {
+            stateMsg = '<b>Draw!</b>';
+        } else if (gameState === 'X_WINS' || gameState === 'O_WINS') {
+            stateMsg = `<b>${gameState[0]}</b> wins!`;
+        }
+        infoDiv.innerHTML = stateMsg;
+        showBanner();
+    }
+
+    async function newGame() {
+        const res = await fetch('/api/game', { method: 'POST' });
+        const data = await res.json();
+        gameId = data.gameId;
+        board = data.board;
+        currentPlayer = data.currentPlayer;
+        gameState = data.gameState || 'ONGOING';
+        renderBoard();
+        updateGameInfo();
+    }
+
+    async function makeMove(row, col) {
+        if (!gameId) return;
+        const res = await fetch(`/api/game/${gameId}/move`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ row, col })
+        });
+        const data = await res.json();
+        board = data.board;
+        currentPlayer = data.currentPlayer;
+        gameState = data.gameState || 'ONGOING';
+        renderBoard();
+        updateGameInfo();
+    }
+
+    document.getElementById('newGameBtn').onclick = newGame;
+    updateGameInfo();
+</script>
+</body>
+</html>
